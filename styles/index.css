@@ -39,3 +39,11 @@
   background-color: #004494;
   transform: translateY(1px);
 }
+
+.hidden {
+  display: none;
+}
+
+.completed {
+  background-color: lightgreen;
+}
