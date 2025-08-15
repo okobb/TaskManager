@@ -12,10 +12,10 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const id = event.target.dataset.id;
     if (event.target.classList.contains('complete')) {
-        // Find the parent div using .closest()
+        
         const task_card = event.target.closest('.task-card');
 
-        // Pass the div directly to your function
+       
         if (task_card) {
             markAsComplete(task_card,id);
         }
@@ -40,9 +40,9 @@ filter.addEventListener('change', () => {
     const tasks = document.querySelectorAll('.task-card');
 
     tasks.forEach(card => {
-        // Get the text content of the status p tag
+        
         const status_element = card.querySelector('.status');
-        const card_status_text = status_element.textContent.trim(); // .trim() removes any extra spaces
+        const card_status_text = status_element.textContent.trim(); 
 
         if (selected_status === "All" || card_status_text === selected_status) {
             card.classList.remove('hidden');
@@ -64,16 +64,23 @@ function getTasks() {
     } else {
         document.getElementById("empty").style.display = "none";
         task_list.forEach((task) => {
-            // Check the task's status to decide if the 'completed' class should be added
-            const completed_class = task.status === 'Completed' ? 'completed' : '';
+            const completedClass = task.status === 'Completed' ? 'completed' : '';
             
-            // Generate the HTML with the conditional class and data attribute
-            var html = `<div class="task-card ${completed_class}" data-id="${task.id}" data-status="${task.status}">
+            
+            const editButton = task.status !== 'Completed' 
+                ? `<button class="edit button" data-id="${task.id}"> Edit</button>`
+                : '';
+                
+            const completeButton = task.status !== 'Completed'
+                ? `<button class="complete button" data-id="${task.id}"> Mark As Complete</button>`
+                : '';
+
+            var html = `<div class="task-card ${completedClass}" data-id="${task.id}" data-status="${task.status}">
                 <p class="task-description"> ${task.description} </p>
                 <p class="status"> ${task.status} </p>
-                <button class="edit button" data-id="${task.id}"> Edit</button>
+                ${editButton}
+                ${completeButton}
                 <button class="delete button" data-id="${task.id}"> Delete</button>
-                <button class="complete button" data-id="${task.id}"> Mark As Complete</button>
             </div>`;
             tasks.innerHTML += html;
         });
@@ -98,7 +105,7 @@ function AddTask() {
   const task_list = JSON.parse(localStorage.getItem(store)) || [];
 
   const new_task = {
-    id: task_list.length, // Use a reliable ID
+    id: task_list.length, 
     description: description,
     status: status,
   };
@@ -197,14 +204,14 @@ function markAsComplete(taskDiv,id) {
 
     const tasks_list = JSON.parse(localStorage.getItem('tasks')) || [];
 
-    // Loop through the array to find the matching task
+   
     tasks_list.forEach(task => {
         if (task.id === parseInt(id)) {
             task.status = 'Completed';
+            document.getElementById(`edit-input-${id}`)
         }
     });
-    
-    // Save the entire updated array back to local storage
+       
     localStorage.setItem('tasks', JSON.stringify(tasks_list));
     getTasks();
 }
