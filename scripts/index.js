@@ -12,10 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const id = event.target.dataset.id;
     if (event.target.classList.contains('complete')) {
-        
         const task_card = event.target.closest('.task-card');
-
-       
         if (task_card) {
             markAsComplete(task_card,id);
         }
@@ -25,12 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (event.target.classList.contains("save")) {
       SaveTask(id);
     } else if (event.target.classList.contains("delete")) {
-      const id = event.target.dataset.id;
       DeleteTask(id);
-    }
-    else if (event.target.classList.contains("complete")) {
-      const id = event.target.dataset.id;
-      CompleteTask(id);
     }
   });
 
