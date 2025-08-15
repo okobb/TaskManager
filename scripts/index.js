@@ -1,20 +1,25 @@
-
+const store = 'tasks';
 
 document.addEventListener('DOMContentLoaded', () =>
 {
     getTasks();
-    var add = document.getElementById('add');
-    add.addEventListener('click', AddTask)
-       
+
+    const add = document.getElementById('add');
+    add.addEventListener('click', AddTask);  
     
+
+    var tasks = document.getElementById('tasks');
+    tasks.addEventListener('click',DeleteTask)
+
 })
 
 function getTasks(){
-    const store = 'tasks';
+    
     const task_list = JSON.parse(localStorage.getItem(store)) || [];
     var tasks = document.getElementById('tasks');
+    tasks.innerHTML = '';
     task_list.forEach(task => {
-      
+        
         var html = `<div class = "task-card">
             <p class ="task-description"> ${task.description} </p>
             <p class = "status"> ${task.status} </p>
@@ -30,6 +35,7 @@ function AddTask() {
         const task_list = JSON.parse(localStorage.getItem(store)) || [];
 
         const new_task = {
+        id : task_list.length,
         description: 'hi',
         status: 'status',
         };
@@ -50,4 +56,12 @@ function AddTask() {
             <button class = "delete button"> Delete</button>
         </div>`;
         tasks.innerHTML += html;
+}
+
+function DeleteTask(event){
+   const id = event.target.dataset.id;
+   const tasks_list = JSON.parse(localStorage.getItem(store)) || [];
+   tasks_list.splice(id, 1);
+   localStorage.setItem(store, JSON.stringify(tasks_list));
+   getTasks();
 }
